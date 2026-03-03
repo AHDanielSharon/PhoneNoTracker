@@ -43,12 +43,12 @@ body {
 
 .topbar { padding: 1.2rem 1.4rem; }
 .topbar h1 { margin: 0; font-size: 1.4rem; }
-.topbar p { margin: 0.4rem 0 0; opacity: 0.85; }
+.topbar p { margin: 0.4rem 0 0; opacity: 0.88; }
 
 .controls { padding: 1rem 1.2rem; }
 .control-grid {
   display: grid;
-  grid-template-columns: 1fr 220px auto;
+  grid-template-columns: 1.4fr 1fr 220px auto;
   gap: 0.8rem;
   align-items: end;
 }
@@ -82,6 +82,12 @@ input, select {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+.hint {
+  margin: 0.8rem 0 0;
+  font-size: 0.9rem;
+  color: #b7f9ff;
+}
+
 .map-wrap { padding: 0.7rem; }
 #map {
   width: 100%;
@@ -90,6 +96,10 @@ input, select {
   overflow: hidden;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 980px) {
+  .control-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 680px) {
   .control-grid { grid-template-columns: 1fr; }
 }

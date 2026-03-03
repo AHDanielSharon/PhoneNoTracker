@@ -1,16 +1,22 @@
-# Consent Live Location Tracker (India-friendly map defaults)
+# Phone-Pair Consent Live Location Tracker
 
-This project provides a **consent-based live location sharing app** with:
+This app gives real-time location tracking with map + satellite view and distance updates.
 
-- Real-time map updates for two participants (`me` and `target`)
-- Street + Satellite view switch
-- Live distance between participants (meters/kilometers)
-- Neon / modern glowing UI
+## How phone number tracking works here
 
-## Important privacy note
+- You enter a phone number and 6-digit pairing code.
+- The phone owner must open the app, enter the same phone + pairing code, and allow GPS.
+- Then the app shows accurate live location and distance as they move.
 
-Tracking someone by only entering their phone number without explicit consent is not supported and not legal/ethical.
-This app works only when both people intentionally join the same room code and allow location access.
+> Exact live location cannot be obtained from only a phone number by itself.
+> Accuracy comes from GPS sharing by the consenting phone owner.
+
+## Features
+
+- Live map updates for `me` and `phone owner`
+- Street + Satellite switch
+- Distance in meters/kilometers
+- Neon modern glowing colorful UI
 
 ## Run
 
@@ -19,9 +25,4 @@ npm install
 npm start
 ```
 
-Then open:
-
-- `http://localhost:3000` on your device/browser
-- same URL on the second device/browser
-- enter same room code and choose different roles
-
+Open `http://localhost:3000` on both devices/browsers.

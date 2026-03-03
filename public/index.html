@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Live Location (Consent Mode)</title>
+    <title>Live Location (Consent + Phone Pairing)</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -16,35 +16,44 @@
     <div class="bg-glow"></div>
     <main class="app-shell">
       <header class="topbar neon-card">
-        <h1>✨ Consent Live Location Tracker</h1>
+        <h1>✨ Phone-Pair Live Location Tracker</h1>
         <p>
-          Privacy-safe mode: both sides must open this app, join the same room code,
-          and allow GPS sharing.
+          Enter a phone number to pair a consent session. Accurate live location appears only
+          when the phone owner opens this app and shares GPS.
         </p>
       </header>
 
       <section class="controls neon-card">
         <div class="control-grid">
           <label>
-            Room Code
-            <input id="roomId" placeholder="e.g. india-demo-108" />
+            Phone Number (India)
+            <input id="phoneNumber" placeholder="e.g. +91 98765 43210" />
+          </label>
+
+          <label>
+            Pairing Code
+            <input id="pairCode" placeholder="e.g. 482913" />
           </label>
 
           <label>
             Your Role
             <select id="role">
               <option value="me">Me</option>
-              <option value="target">Target (consenting person)</option>
+              <option value="target">Phone Owner</option>
             </select>
           </label>
 
-          <button id="joinBtn" class="btn-glow">Join + Start Sharing</button>
+          <button id="joinBtn" class="btn-glow">Pair + Start Live Tracking</button>
         </div>
 
         <div class="status-row">
           <div class="pill" id="status">Not connected</div>
           <div class="pill" id="distance">Distance: --</div>
         </div>
+        <p class="hint" id="hint">
+          Note: no system can fetch exact live GPS from only a phone number. This app uses consent-based
+          sharing for accuracy.
+        </p>
       </section>
 
       <section class="map-wrap neon-card">

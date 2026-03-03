@@ -1,10 +1,12 @@
 const socket = io();
 
-const roomInput = document.getElementById('roomId');
+const phoneInput = document.getElementById('phoneNumber');
+const pairCodeInput = document.getElementById('pairCode');
 const roleSelect = document.getElementById('role');
 const joinBtn = document.getElementById('joinBtn');
 const statusPill = document.getElementById('status');
 const distancePill = document.getElementById('distance');
+const hint = document.getElementById('hint');
 
 let watchId;
 let currentRoom;
@@ -30,29 +32,37 @@ street.addTo(map);
 L.control.layers({ Streets: street, Satellite: satellite }).addTo(map);
 
 const meMarker = L.marker([20.5937, 78.9629]).addTo(map).bindPopup('Me');
-const targetMarker = L.marker([20.5937, 78.9629]).addTo(map).bindPopup('Target');
+const targetMarker = L.marker([20.5937, 78.9629]).addTo(map).bindPopup('Phone Owner');
 
 meMarker.setOpacity(0);
 targetMarker.setOpacity(0);
 
-joinBtn.addEventListener('click', async () => {
-  const roomId = roomInput.value.trim();
+joinBtn.addEventListener('click', () => {
+  const phone = normalizeIndianPhone(phoneInput.value);
+  const pairCode = pairCodeInput.value.trim();
   const role = roleSelect.value;
 
-  if (!roomId) {
-    statusPill.textContent = 'Please enter room code';
+  if (!phone) {
+    statusPill.textContent = 'Enter valid Indian phone number (+91XXXXXXXXXX or 10 digits)';
     return;
   }
 
-  currentRoom = roomId;
+  if (!/^\d{6}$/.test(pairCode)) {
+    statusPill.textContent = 'Enter 6-digit pairing code';
+    return;
+  }
+
+  currentRoom = `${phone}:${pairCode}`;
   myRole = role;
 
-  socket.emit('join-room', { roomId, role });
+  socket.emit('join-room', { roomId: currentRoom, role });
+  hint.textContent = 'Paired. Share same phone + code with the other person to receive accurate live GPS.';
   startTracking();
 });
 
 socket.on('room-joined', ({ roomId, role }) => {
-  statusPill.textContent = `Connected to ${roomId} as ${role}`;
+  const [phone] = roomId.split(':');
+  statusPill.textContent = `Connected for ${maskPhone(phone)} as ${role}`;
 });
 
 socket.on('state-update', (state) => {
@@ -98,13 +108,8 @@ function renderState() {
   const me = latestState.me?.coords;
   const target = latestState.target?.coords;
 
-  if (me) {
-    meMarker.setLatLng([me.lat, me.lng]).setOpacity(1);
-  }
-
-  if (target) {
-    targetMarker.setLatLng([target.lat, target.lng]).setOpacity(1);
-  }
+  if (me) meMarker.setLatLng([me.lat, me.lng]).setOpacity(1);
+  if (target) targetMarker.setLatLng([target.lat, target.lng]).setOpacity(1);
 
   if (me && target) {
     const distM = haversineMeters(me.lat, me.lng, target.lat, target.lng);
@@ -118,10 +123,20 @@ function renderState() {
   }
 }
 
+function normalizeIndianPhone(raw) {
+  const digits = raw.replace(/\D/g, '');
+  if (/^91\d{10}$/.test(digits)) return digits;
+  if (/^\d{10}$/.test(digits)) return `91${digits}`;
+  return null;
+}
+
+function maskPhone(phone) {
+  return `+${phone.slice(0, 2)} ******${phone.slice(-4)}`;
+}
+
 function haversineMeters(lat1, lon1, lat2, lon2) {
   const R = 6371000;
   const toRad = (deg) => (deg * Math.PI) / 180;
-
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
 
@@ -129,7 +144,6 @@ function haversineMeters(lat1, lon1, lat2, lon2) {
     Math.sin(dLat / 2) ** 2 +
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
   return R * c;
 }
 
