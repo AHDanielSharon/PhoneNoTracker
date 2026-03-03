@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Location (Consent + Phone Pairing)</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <main class="app-shell">
+      <header class="topbar neon-card">
+        <h1>✨ Phone-Pair Live Location Tracker</h1>
+        <p>
+          Enter a phone number to pair a consent session. Accurate live location appears only
+          when the phone owner opens this app and shares GPS.
+        </p>
+      </header>
+
+      <section class="controls neon-card">
+        <div class="control-grid">
+          <label>
+            Phone Number (India)
+            <input id="phoneNumber" placeholder="e.g. +91 98765 43210" />
+          </label>
+
+          <label>
+            Pairing Code
+            <input id="pairCode" placeholder="e.g. 482913" />
+          </label>
+
+          <label>
+            Your Role
+            <select id="role">
+              <option value="me">Me</option>
+              <option value="target">Phone Owner</option>
+            </select>
+          </label>
+
+          <button id="joinBtn" class="btn-glow">Pair + Start Live Tracking</button>
+        </div>
+
+        <div class="status-row">
+          <div class="pill" id="status">Not connected</div>
+          <div class="pill" id="distance">Distance: --</div>
+        </div>
+        <p class="hint" id="hint">
+          Note: no system can fetch exact live GPS from only a phone number. This app uses consent-based
+          sharing for accuracy.
+        </p>
+      </section>
+
+      <section class="map-wrap neon-card">
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>
