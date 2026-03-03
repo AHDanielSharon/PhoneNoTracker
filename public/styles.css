@@ -1,0 +1,95 @@
+:root {
+  --bg: #070912;
+  --card: rgba(15, 20, 40, 0.76);
+  --cyan: #49f4ff;
+  --pink: #ff4fd8;
+  --violet: #8b5dff;
+  --text: #ecf1ff;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, Segoe UI, system-ui, sans-serif;
+  background: radial-gradient(circle at 20% 20%, #181f42 0%, var(--bg) 45%, #05060a 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(45rem 45rem at 15% 12%, rgba(73, 244, 255, 0.25), transparent 60%),
+    radial-gradient(40rem 40rem at 85% 20%, rgba(255, 79, 216, 0.2), transparent 62%),
+    radial-gradient(42rem 42rem at 50% 85%, rgba(139, 93, 255, 0.2), transparent 63%);
+  pointer-events: none;
+}
+
+.app-shell {
+  width: min(1200px, 94vw);
+  margin: 2rem auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.neon-card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 0 28px rgba(73, 244, 255, 0.12), inset 0 0 40px rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+}
+
+.topbar { padding: 1.2rem 1.4rem; }
+.topbar h1 { margin: 0; font-size: 1.4rem; }
+.topbar p { margin: 0.4rem 0 0; opacity: 0.85; }
+
+.controls { padding: 1rem 1.2rem; }
+.control-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px auto;
+  gap: 0.8rem;
+  align-items: end;
+}
+
+label { display: grid; gap: 0.4rem; font-size: 0.9rem; }
+input, select {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(5, 10, 28, 0.85);
+  color: var(--text);
+}
+
+.btn-glow {
+  padding: 0.76rem 1rem;
+  border-radius: 12px;
+  border: 0;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  box-shadow: 0 0 25px rgba(255, 79, 216, 0.5);
+}
+
+.status-row { margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.pill {
+  border-radius: 999px;
+  padding: 0.42rem 0.86rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.map-wrap { padding: 0.7rem; }
+#map {
+  width: 100%;
+  height: min(72vh, 640px);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+@media (max-width: 860px) {
+  .control-grid { grid-template-columns: 1fr; }
+}
